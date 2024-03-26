@@ -1,7 +1,9 @@
 package com.gustavhaavik.game;
 
 import com.gustavhaavik.game.entity.Player;
+import com.gustavhaavik.game.tile.Tile;
 import com.gustavhaavik.game.tile.TileManager;
+import com.gustavhaavik.game.tile.TileType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,9 +24,10 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
 
+    TileManager tileManager = new TileManager(this);
+
     Player player = new Player(this, keyHandler);
 
-    TileManager tileManager = new TileManager(this);
 
     public GamePanel() {
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -33,6 +36,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         addKeyListener(keyHandler);
         setFocusable(true);
+    }
+
+    public Tile getTile(int index, TileType tileType) {
+        return tileManager.getTile(index, tileType);
     }
 
     @Override
