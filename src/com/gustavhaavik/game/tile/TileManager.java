@@ -28,7 +28,10 @@ public class TileManager {
         loadTileMap("/tiles/Trees.png");
         loadTileMap("/tiles/Rocks.png");
 
+        System.out.println("Loaded " + tilesIndex + " tiles");
+
         swordsmanTiles = getTiles("/player/SwordsmanPurple.png");
+        System.out.println("Loaded " + swordsmanTiles.length + " player tiles");
     }
 
     public Tile[] getTiles(String path) {
@@ -78,7 +81,6 @@ public class TileManager {
                 for (int col = 0; col < cols; col++) {
                     groundTiles[tilesIndex] = new Tile(image.getSubimage(col * gamePanel.ORIGINAL_TILE_SIZE, row * gamePanel.ORIGINAL_TILE_SIZE, gamePanel.ORIGINAL_TILE_SIZE, gamePanel.ORIGINAL_TILE_SIZE));
                     tilesIndex++;
-                    System.out.println("Tile added: " + tilesIndex);
                 }
             }
         } catch (IOException e) {
@@ -87,9 +89,9 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        for (int row = 0; row < gamePanel.MAX_SCREEN_ROW; row++) {
-            for (int col = 0; col < gamePanel.MAX_SCREEN_COL; col++) {
-                g2.drawImage(groundTiles[1].image, col * gamePanel.TILE_SIZE, row * gamePanel.TILE_SIZE, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE, null);
+        for (int row = 0; row < gamePanel.getMaxScreenRows(); row++) {
+            for (int col = 0; col < gamePanel.getMaxScreenColumns(); col++) {
+                g2.drawImage(groundTiles[1].image, col * gamePanel.getTileSize(), row * gamePanel.getTileSize(), gamePanel.getTileSize(), gamePanel.getTileSize(), null);
             }
         }
     }

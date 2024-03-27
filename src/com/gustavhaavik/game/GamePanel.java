@@ -4,6 +4,7 @@ import com.gustavhaavik.game.entity.Player;
 import com.gustavhaavik.game.tile.Tile;
 import com.gustavhaavik.game.tile.TileManager;
 import com.gustavhaavik.game.tile.TileType;
+import com.gustavhaavik.game.world.World;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +13,10 @@ public class GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
     public final int ORIGINAL_TILE_SIZE = 16; // 16x16 pixels
     final int SCALE = 3;
-    public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 pixels
+    final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 pixels
 
-    public final int MAX_SCREEN_COL = 16;
-    public final int MAX_SCREEN_ROW = 12;
+    final int MAX_SCREEN_COL = 16;
+    final int MAX_SCREEN_ROW = 12;
     final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 768 pixels
     final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576 pixels
 
@@ -26,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     TileManager tileManager = new TileManager(this);
 
+    World world = new World(this, 50, 50);
     Player player = new Player(this, keyHandler);
 
 
@@ -48,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        tileManager.draw(g2);
+        world.draw(g2);
 
         player.draw(g2);
 
@@ -120,5 +122,33 @@ public class GamePanel extends JPanel implements Runnable {
             gameThread.interrupt();
             gameThread = null;
         }
+    }
+
+    public int getOriginalTileSize() {
+        return ORIGINAL_TILE_SIZE;
+    }
+
+    public int getTileSize() {
+        return TILE_SIZE;
+    }
+
+    public int getMaxScreenColumns() {
+        return MAX_SCREEN_COL;
+    }
+
+    public int getMaxScreenRows() {
+        return MAX_SCREEN_ROW;
+    }
+
+    public int getScreenWidth() {
+        return SCREEN_WIDTH;
+    }
+
+    public int getScreenHeight() {
+        return SCREEN_HEIGHT;
+    }
+
+    public TileManager getTileManager() {
+        return tileManager;
     }
 }

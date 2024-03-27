@@ -2,10 +2,8 @@ package com.gustavhaavik.game.entity;
 
 import com.gustavhaavik.game.animator.Animation;
 
-import java.awt.image.BufferedImage;
-
 public class Entity {
-    public int x, y;
+    public int worldX, worldY;
     public int speed;
 
     public Animation walkUp;
