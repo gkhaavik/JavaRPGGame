@@ -11,17 +11,20 @@ public class World {
     GamePanel gamePanel;
     TileManager tileManager;
 
-    private int width, height;
+    private final int maxWorldColumns;
+    private final int maxWorldRows;
     private int[][] tiles;
 
     public World(GamePanel gamePanel, int maxColumns, int maxRows) {
         this.gamePanel = gamePanel;
         this.tileManager = gamePanel.getTileManager();
 
-        this.width = maxColumns * gamePanel.getTileSize();
-        this.height = maxRows * gamePanel.getTileSize();
+        this.maxWorldColumns = maxColumns;
+        this.maxWorldRows = maxRows;
+//        this.width = maxColumns * gamePanel.getTileSize();
+//        this.height = maxRows * gamePanel.getTileSize();
 
-        tiles = WorldGeneration.generateWorld(width, height);
+        tiles = WorldGeneration.generateWorld(maxColumns, maxRows);
     }
 
     public int getTile(int x, int y) {
@@ -33,28 +36,39 @@ public class World {
     }
 
     public void draw(Graphics2D g2) {
-        int x = 0;
-        int y = 0;
+        int worldCol = 0;
+        int worldRow = 0;
 
-        for (int row = 0; row < tiles.length; row++) {
-            for (int col = 0; col < tiles[row].length; col++) {
-                int tileType = tiles[row][col];
+        while (worldCol < maxWorldColumns && worldRow < maxWorldRows) {
+            int tileIndex = tiles[worldCol][worldRow];
+            Tile tile = tileManager.getTile(tileIndex, TileType.WORLD);
 
+            int worldX = worldCol * gamePanel.getTileSize();
+            int worldY = worldRow * gamePanel.getTileSize();
 
-                x += gamePanel.getTileSize();
+            int screenX = worldX - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().screenX;
+            int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().screenY;
+
+            if (worldX + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().screenX &&
+                    worldX - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().screenX &&
+                    worldY + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().screenY &&
+                    worldY - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().screenY
+            ) {
+                g2.drawImage(tile.image,
+                        screenX,
+                        screenY,
+                        gamePanel.getTileSize(),
+                        gamePanel.getTileSize(),
+                        null);
             }
 
-            x = 0;
-            y += gamePanel.getTileSize();
+
+            worldCol++;
+            if (worldCol >= maxWorldColumns) {
+                worldCol = 0;
+                worldRow++;
+            }
         }
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public int[][] getTiles() {

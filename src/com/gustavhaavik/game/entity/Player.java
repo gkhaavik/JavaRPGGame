@@ -50,9 +50,9 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gamePanel.getTileSize() * 100;
-        worldY = gamePanel.getTileSize() * 100;
-        speed = 4;
+        worldX = 10 * gamePanel.getTileSize();
+        worldY = 10 * gamePanel.getTileSize();
+        speed = 2;
         direction = "down";
     }
 
@@ -75,6 +75,7 @@ public class Player extends Entity {
             walkRight.update();
         }
 
+        gamePanel.getCamera().move(worldX - gamePanel.getScreenWidth() / 2, worldY - gamePanel.getScreenHeight() / 2);
     }
 
     public void draw(Graphics2D g2) {
@@ -87,5 +88,13 @@ public class Player extends Entity {
         };
 
         g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+    }
+
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public int getWorldY() {
+        return worldY;
     }
 }

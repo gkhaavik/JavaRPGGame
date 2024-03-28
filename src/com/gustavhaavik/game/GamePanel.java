@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     TileManager tileManager = new TileManager(this);
 
+    Camera camera = new Camera();
     World world = new World(this, 50, 50);
     Player player = new Player(this, keyHandler);
 
@@ -56,15 +57,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.dispose();
     }
-
-//    private void draw(Graphics g) {
-//        for (int row = 0; row < MAX_SCREEN_ROW; row++) {
-//            for (int col = 0; col < MAX_SCREEN_COL; col++) {
-//                g.setColor(Color.WHITE);
-//                g.drawRect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-//            }
-//        }
-//    }
 
     public void startGame() {
         if (gameThread == null) {
@@ -116,7 +108,6 @@ public class GamePanel extends JPanel implements Runnable {
         player.update();
     }
 
-
     public void stopGame() {
         if (gameThread != null) {
             gameThread.interrupt();
@@ -150,5 +141,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     public TileManager getTileManager() {
         return tileManager;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
