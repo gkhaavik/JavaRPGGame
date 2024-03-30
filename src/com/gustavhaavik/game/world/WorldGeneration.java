@@ -10,10 +10,10 @@ public class WorldGeneration {
             for (int y = 0; y < height; y++) {
                 if (noise[x][y] < 0.3) {
                     world[x][y] = 0;
-                } else if (noise[x][y] < 0.6) {
-                    world[x][y] = 4;
-                } else {
+                } else if (noise[x][y] <= 0.4) {
                     world[x][y] = 2;
+                } else {
+                    world[x][y] = 1;
                 }
             }
         }

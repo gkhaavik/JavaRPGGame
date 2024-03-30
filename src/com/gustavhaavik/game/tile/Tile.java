@@ -6,7 +6,8 @@ public class Tile {
     public BufferedImage image;
     public boolean isSolid = false;
 
-    public Tile(BufferedImage image) {
+    public Tile(BufferedImage image, boolean isSolid) {
         this.image = image;
+        this.isSolid = isSolid;
     }
 }

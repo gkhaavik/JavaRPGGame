@@ -21,18 +21,12 @@ public class World {
 
         this.maxWorldColumns = maxColumns;
         this.maxWorldRows = maxRows;
-//        this.width = maxColumns * gamePanel.getTileSize();
-//        this.height = maxRows * gamePanel.getTileSize();
 
         tiles = WorldGeneration.generateWorld(maxColumns, maxRows);
     }
 
     public int getTile(int x, int y) {
         return tiles[x][y];
-    }
-
-    public void update() {
-
     }
 
     public void draw(Graphics2D g2) {
@@ -43,22 +37,22 @@ public class World {
             int tileIndex = tiles[worldCol][worldRow];
             Tile tile = tileManager.getTile(tileIndex, TileType.WORLD);
 
-            int worldX = worldCol * gamePanel.getTileSize();
-            int worldY = worldRow * gamePanel.getTileSize();
+            int worldX = worldCol * GamePanel.TILE_SIZE;
+            int worldY = worldRow * GamePanel.TILE_SIZE;
 
             int screenX = worldX - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().screenX;
             int screenY = worldY - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().screenY;
 
-            if (worldX + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().screenX &&
-                    worldX - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().screenX &&
-                    worldY + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().screenY &&
-                    worldY - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().screenY
+            if (worldX + GamePanel.TILE_SIZE > gamePanel.getPlayer().getWorldX() - gamePanel.getPlayer().screenX &&
+                    worldX - GamePanel.TILE_SIZE < gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().screenX &&
+                    worldY + GamePanel.TILE_SIZE > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().screenY &&
+                    worldY - GamePanel.TILE_SIZE < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().screenY
             ) {
                 g2.drawImage(tile.image,
                         screenX,
                         screenY,
-                        gamePanel.getTileSize(),
-                        gamePanel.getTileSize(),
+                        GamePanel.TILE_SIZE,
+                        GamePanel.TILE_SIZE,
                         null);
             }
 

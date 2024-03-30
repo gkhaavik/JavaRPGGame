@@ -2,7 +2,9 @@ package com.gustavhaavik.game.entity;
 
 import com.gustavhaavik.game.GamePanel;
 import com.gustavhaavik.game.KeyHandler;
-import com.gustavhaavik.game.animator.Animation;
+import com.gustavhaavik.game.components.animator.Animation;
+import com.gustavhaavik.game.components.animator.Animator;
+import com.gustavhaavik.game.gameobjects.GameObject;
 import com.gustavhaavik.game.tile.TileType;
 
 import java.awt.*;
@@ -12,46 +14,24 @@ public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
 
+    Animator animator;
+
     public final int screenX, screenY;
 
-    public Player(GamePanel gamePanel, KeyHandler keyHandler) {
+    public Player(GamePanel gamePanel, KeyHandler keyHandler, GameObject gameObject) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+        this.animator = gameObject.getComponent(Animator.class);
 
-        walkUp = new Animation(120, new BufferedImage[]{
-                gamePanel.getTile(6, TileType.PLAYER).image,
-                gamePanel.getTile(7, TileType.PLAYER).image,
-                gamePanel.getTile(8, TileType.PLAYER).image,
-                gamePanel.getTile(9, TileType.PLAYER).image,
-        });
-        walkDown = new Animation(120, new BufferedImage[]{
-                gamePanel.getTile(1, TileType.PLAYER).image,
-                gamePanel.getTile(2, TileType.PLAYER).image,
-                gamePanel.getTile(3, TileType.PLAYER).image,
-                gamePanel.getTile(4, TileType.PLAYER).image
-        });
-        walkLeft = new Animation(120, new BufferedImage[]{
-                gamePanel.getTile(16, TileType.PLAYER).image,
-                gamePanel.getTile(17, TileType.PLAYER).image,
-                gamePanel.getTile(18, TileType.PLAYER).image,
-                gamePanel.getTile(19, TileType.PLAYER).image
-        });
-        walkRight = new Animation(120, new BufferedImage[]{
-                gamePanel.getTile(11, TileType.PLAYER).image,
-                gamePanel.getTile(12, TileType.PLAYER).image,
-                gamePanel.getTile(13, TileType.PLAYER).image,
-                gamePanel.getTile(14, TileType.PLAYER).image
-        });
-
-        screenX = gamePanel.getScreenWidth() / 2 - gamePanel.getTileSize() / 2;
-        screenY = gamePanel.getScreenHeight() / 2 - gamePanel.getTileSize() / 2;
+        screenX = GamePanel.SCREEN_WIDTH / 2 - GamePanel.TILE_SIZE / 2;
+        screenY = GamePanel.SCREEN_HEIGHT / 2 - GamePanel.TILE_SIZE / 2;
 
         setDefaultValues();
     }
 
     public void setDefaultValues() {
-        worldX = 10 * gamePanel.getTileSize();
-        worldY = 10 * gamePanel.getTileSize();
+        worldX = 10 * GamePanel.TILE_SIZE;
+        worldY = 10 * GamePanel.TILE_SIZE;
         speed = 2;
         direction = "down";
     }
@@ -60,34 +40,42 @@ public class Player extends Entity {
         if (keyHandler.up) {
             worldY -= speed;
             direction = "up";
-            walkUp.update();
+            animator.setAnimation(1);
         } else if (keyHandler.down) {
             worldY += speed;
             direction = "down";
-            walkDown.update();
+            animator.setAnimation(0);
         } else if (keyHandler.left) {
             worldX -= speed;
             direction = "left";
-            walkLeft.update();
+            animator.setAnimation(3);
         } else if (keyHandler.right) {
             worldX += speed;
             direction = "right";
-            walkRight.update();
+            animator.setAnimation(2);
         }
 
-        gamePanel.getCamera().move(worldX - gamePanel.getScreenWidth() / 2, worldY - gamePanel.getScreenHeight() / 2);
+        if (keyHandler.isMoving()) {
+            animator.update();
+        }
+
+//        Check if player is out of bounds
+        if (worldX < 0) {
+            worldX = 0;
+        } else if (worldX > gamePanel.getWorld().getTiles().length * GamePanel.TILE_SIZE - GamePanel.TILE_SIZE) {
+            worldX = gamePanel.getWorld().getTiles().length * GamePanel.TILE_SIZE - GamePanel.TILE_SIZE;
+        }
+
+        if (worldY < 0) {
+            worldY = 0;
+        } else if (worldY > gamePanel.getWorld().getTiles()[0].length * GamePanel.TILE_SIZE - GamePanel.TILE_SIZE) {
+            worldY = gamePanel.getWorld().getTiles()[0].length * GamePanel.TILE_SIZE - GamePanel.TILE_SIZE;
+        }
     }
 
     public void draw(Graphics2D g2) {
-        BufferedImage image = switch (direction) {
-            case "up" -> walkUp.getCurrentFrame();
-            case "down" -> walkDown.getCurrentFrame();
-            case "left" -> walkLeft.getCurrentFrame();
-            case "right" -> walkRight.getCurrentFrame();
-            default -> null;
-        };
-
-        g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        BufferedImage image = animator.getCurrentAnimation().getCurrentFrame();
+        g2.drawImage(image, screenX, screenY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
     }
 
     public int getWorldX() {

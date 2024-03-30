@@ -1,0 +1,117 @@
+{
+  "tiles": [
+    {
+      "name": "Grass",
+      "type": "GROUND",
+      "x": 2,
+      "y": 0,
+      "image": "/tiles/Grass.png"
+    },
+    {
+      "name": "Water",
+      "type": "GROUND",
+      "x": 0,
+      "y": 0,
+      "image": "/tiles/Grass.png"
+    },
+    {
+      "name": "Sand",
+      "type": "GROUND",
+      "x": 4,
+      "y": 0,
+      "image": "/tiles/Grass.png"
+    }
+  ],
+  "player": {
+    "name": "Purple Swordsman",
+    "x": 0,
+    "y": 0,
+    "image": "/player/SwordsmanPurple.png",
+    "animations": {
+      "walkDown": {
+        "frames": [
+          {
+            "x": 1,
+            "y": 0
+          },
+          {
+            "x": 2,
+            "y": 0
+          },
+          {
+            "x": 3,
+            "y": 0
+          },
+          {
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "frameRate": 10
+      },
+      "walkUp": {
+        "frames": [
+          {
+            "x": 6,
+            "y": 1
+          },
+          {
+            "x": 7,
+            "y": 1
+          },
+          {
+            "x": 8,
+            "y": 1
+          },
+          {
+            "x": 9,
+            "y": 1
+          }
+        ],
+        "frameRate": 10
+      },
+      "walkRight": {
+        "frames": [
+          {
+            "x": 11,
+            "y": 2
+          },
+          {
+            "x": 12,
+            "y": 2
+          },
+          {
+            "x": 13,
+            "y": 2
+          },
+          {
+            "x": 14,
+            "y": 2
+          }
+        ],
+        "frameRate": 10
+      },
+      "walkLeft": {
+        "frames": [
+          {
+            "x": 16,
+            "y": 3
+          },
+          {
+            "x": 17,
+            "y": 3
+          },
+          {
+            "x": 18,
+            "y": 3
+          },
+          {
+            "x": 19,
+            "y": 3
+          }
+        ],
+        "frameRate": 10
+      }
+    }
+  }
+}

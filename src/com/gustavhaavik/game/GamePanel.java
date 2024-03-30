@@ -1,36 +1,40 @@
 package com.gustavhaavik.game;
 
 import com.gustavhaavik.game.entity.Player;
+import com.gustavhaavik.game.gameobjects.Prefabs;
 import com.gustavhaavik.game.tile.Tile;
 import com.gustavhaavik.game.tile.TileManager;
 import com.gustavhaavik.game.tile.TileType;
 import com.gustavhaavik.game.world.World;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
-    public final int ORIGINAL_TILE_SIZE = 16; // 16x16 pixels
-    final int SCALE = 3;
-    final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 pixels
+    public static final int ORIGINAL_TILE_SIZE = 16; // 16x16 pixels
+    static final int SCALE = 3;
+    public static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 pixels
 
-    final int MAX_SCREEN_COL = 16;
-    final int MAX_SCREEN_ROW = 12;
-    final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 768 pixels
-    final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576 pixels
+    public static final int MAX_SCREEN_COL = 16;
+    public static final int MAX_SCREEN_ROW = 12;
+    public static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 768 pixels
+    public static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576 pixels
 
     final int FPS = 60;
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
 
-    TileManager tileManager = new TileManager(this);
+    TileManager tileManager = new TileManager();
 
-    Camera camera = new Camera();
     World world = new World(this, 50, 50);
-    Player player = new Player(this, keyHandler);
-
+    Player player = new Player(this, keyHandler, Prefabs.createPlayer());
 
     public GamePanel() {
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -39,10 +43,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         addKeyListener(keyHandler);
         setFocusable(true);
-    }
-
-    public Tile getTile(int index, TileType tileType) {
-        return tileManager.getTile(index, tileType);
     }
 
     @Override
@@ -115,36 +115,8 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public int getOriginalTileSize() {
-        return ORIGINAL_TILE_SIZE;
-    }
-
-    public int getTileSize() {
-        return TILE_SIZE;
-    }
-
-    public int getMaxScreenColumns() {
-        return MAX_SCREEN_COL;
-    }
-
-    public int getMaxScreenRows() {
-        return MAX_SCREEN_ROW;
-    }
-
-    public int getScreenWidth() {
-        return SCREEN_WIDTH;
-    }
-
-    public int getScreenHeight() {
-        return SCREEN_HEIGHT;
-    }
-
     public TileManager getTileManager() {
         return tileManager;
-    }
-
-    public Camera getCamera() {
-        return camera;
     }
 
     public World getWorld() {

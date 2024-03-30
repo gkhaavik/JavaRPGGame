@@ -1,23 +1,23 @@
 package com.gustavhaavik.game;
 
 public class Camera {
-    private int xOffset, yOffset;
+    private int x, y;
 
-    public Camera() {
-        xOffset = 5;
-        yOffset = 5;
+    public Camera(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public void move(int x, int y) {
-        xOffset += x;
-        yOffset += y;
+        this.x += x;
+        this.y += y;
     }
 
-    public int getxOffset() {
-        return xOffset;
+    public int getX() {
+        return x;
     }
 
-    public int getyOffset() {
-        return yOffset;
+    public int getY() {
+        return y;
     }
 }

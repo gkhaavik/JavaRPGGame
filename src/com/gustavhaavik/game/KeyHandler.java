@@ -44,4 +44,8 @@ public class KeyHandler implements KeyListener {
             right = false;
         }
     }
+
+    public boolean isMoving() {
+        return up || down || left || right;
+    }
 }

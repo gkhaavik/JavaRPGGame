@@ -1,11 +1,10 @@
 package com.gustavhaavik.game.entity;
 
-import com.gustavhaavik.game.animator.Animation;
+import com.gustavhaavik.game.components.animator.Animator;
 
 public class Entity {
     int worldX, worldY;
     int speed;
-    Animation walkUp, walkDown, walkLeft, walkRight;
     String direction;
 }
 
